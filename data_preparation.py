@@ -27,7 +27,7 @@ def read_csv_from_s3(csv_filename, zone_name, folder_name):
     logging.info("Logging in to AWS S3")
     s3 = boto3.client("s3",
                   aws_access_key_id="AKIA34AMCY3VJO7OWYOX",
-                  aws_secret_access_key="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",
+                  #aws_secret_access_key="9HTGMOK0VBNjbMqDc2tSY2se9NNmtKHb9nx0mArl",
                   region_name="us-east-1"
     )
     bucket_name = 'dmmlassignmentbucket'
@@ -44,7 +44,7 @@ def save_to_s3(filename, zone_name, folder_name):
     logging.info("Logging in to AWS S3")
     s3 = boto3.client("s3",
                       aws_access_key_id="AKIA34AMCY3VJO7OWYOX",
-                      aws_secret_access_key="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",
+                      #aws_secret_access_key="9HTGMOK0VBNjbMqDc2tSY2se9NNmtKHb9nx0mArl",
                       region_name="us-east-1"
     )
     bucket_name = 'dmmlassignmentbucket'

@@ -1,10 +1,8 @@
-from io import StringIO
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import logging
-import boto3
 import time
-import os
 
 #create log file if it does not exist
 data_validation_log_file = "C:\\Annie\\Trial\\logs\\data_validation.log"
@@ -24,7 +22,7 @@ def generate_csv_data_quality_report(csv_filename, output_path="csv_validation_r
     
     logging.info("Starting data validation")
     timestr = time.strftime("%Y%m%d")
-    df = pd.read_csv("data/raw/customer_data.csv")
+    df = pd.read_csv(f"data/raw/{csv_filename}")
     report_data = []
     logging.info("Running validation on data received from S3")
     
@@ -80,13 +78,10 @@ def generate_csv_data_quality_report(csv_filename, output_path="csv_validation_r
 
     logging.info("Saving metrics to S3")
 
-    outdir = 'reports'
-    if not os.path.exists(outdir):
-        os.mkdir(outdir)
-    report_df.to_csv(f"{outdir}/{output_path}_{timestr}.csv", index=False)
+    p = Path('reports')
+    p.mkdir(parents = True, exist_ok = True)
+    report_df.to_csv(f"reports/{output_path}", index=False)
     logging.info(f"Metrics saved to: {output_path}")
-        
-    os.remove(output_path)
 
 
 generate_csv_data_quality_report("customer_data.csv")

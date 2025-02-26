@@ -1,13 +1,11 @@
 from sklearn.preprocessing import StandardScaler
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.pyplot as plt
-from io import StringIO
+from pathlib import Path
+import seaborn as sns
 import pandas as pd
 import numpy as np
 import logging
-import boto3
-import time
-import os
 
 #create log file if it does not exist
 data_preparation_log_file = "C:\\Annie\\Trial\\logs\\data_preparation.log"
@@ -29,8 +27,8 @@ def prepare_csv_data(output_path="customer_data.csv"):
     # Read data from Amazon S3 bucket
     df = pd.read_csv('data/raw/customer_data.csv')
     
-    logging.info("Handling numeric empty data")
-    numeric_columns = ['tenure', 'MonthlyCharges', 'TotalCharges'];
+    logging.info("Handling 'Tenure', 'Balance', 'EstimatedSalary' empty data")
+    numeric_columns = ['Tenure', 'Balance', 'EstimatedSalary'];
     for col in numeric_columns:
         if not pd.api.types.is_numeric_dtype(df[col]):
             df[col] = df[col].str.strip()
@@ -38,36 +36,45 @@ def prepare_csv_data(output_path="customer_data.csv"):
             df[col] = pd.to_numeric(df[col])
             df[col] = df[col].fillna(df[col].median(skipna=True)) 
     
-    logging.info("Converting 'gender', 'SeniorCitizen', 'Partner', 'Dependents', 'PhoneService' as Categorical data.")
-    for col in ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'PhoneService']: # List all categorical columns
-        df[col] = df[col].astype('category')
+    logging.info("Handling 'Age' empty data")
+    df['Age'] = df['Age'].fillna(df['Tenure'] + 18) 
     
-    logging.info("Applying drop_first on 'gender', 'SeniorCitizen', 'Partner', 'Dependents', 'PhoneService' to avoid multicollinearity.")
-    df = pd.get_dummies(df, columns=['gender', 'Partner', 'InternetService'], drop_first=True) # drop_first avoids multicollinearity
-    df['Contract'] = df['Contract'].astype('category').cat.codes 
-    
-    logging.info("Scaling 'tenure', 'MonthlyCharges', 'TotalCharges'.")
+    logging.info("Scaling 'Tenure', 'Balance', 'EstimatedSalary'.")
     scaler = StandardScaler()
-    df[['tenure', 'MonthlyCharges', 'TotalCharges']] = scaler.fit_transform(df[['tenure', 'MonthlyCharges', 'TotalCharges']])
-    
-    logging.info("Droping customerID column.")
-    
-    df = df.drop('customerID', axis=1)
+    df[['Tenure', 'Balance', 'EstimatedSalary']] = scaler.fit_transform(df[['Tenure', 'Balance', 'EstimatedSalary']])  
 
-    outdir = 'cleaned'
-    if not os.path.exists(outdir):
-        os.mkdir(outdir)
+    
+    logging.info("Droping 'Surname' as it may lead to profiling, 'RowNumber', 'CustomerId' as it is not required")
+    df = df.drop(["RowNumber", "CustomerId", "Surname"], axis = 1)
+    
+    logging.info("Making 'Geography', 'Gender', 'HasCrCard', 'IsActiveMember' as categorical")
+    categorical_columns = ['Geography', 'Gender', 'HasCrCard', 'IsActiveMember']
+    df[categorical_columns] = df[categorical_columns].astype('category')
+
+    p = Path('data/cleaned')
+    p.mkdir(parents = True, exist_ok = True)
         
     logging.info("Saving data to S3.")
-    df.to_csv(f"{outdir}/{output_path}", index=False)
+    df.to_csv(f"data/cleaned/{output_path}", index=False)
     
     
     logging.info("Saving report to S3.")
     generate_report(df)
     
-def generate_report(data, pdf_filename = "cleaned/plots.pdf"):   
-    
+def generate_report(data, pdf_filename = "visualization/plots.pdf"):   
+    p = Path('visualization')
+    p.mkdir(parents = True, exist_ok = True)
     with PdfPages(pdf_filename) as pdf:
+        labels = 'Exited', 'Retained'
+        sizes = [data.Exited[data['Exited']==1].count(), data.Exited[data['Exited']==0].count()]
+        explode = (0, 0.1)
+        fig1, ax1 = plt.subplots(figsize=(10, 8))
+        ax1.pie(sizes, explode=explode, labels=labels, autopct='%1.1f%%',
+                shadow=True, startangle=90)
+        ax1.axis('equal')
+        plt.title("Proportion of customer churned and retained", size = 20)
+        pdf.savefig()
+        plt.close()
         for column in data.columns:
             logging.info(f"Generating histogram for column {column}.")
             plt.figure(figsize=(8,6))
@@ -79,19 +86,25 @@ def generate_report(data, pdf_filename = "cleaned/plots.pdf"):
             pdf.savefig()
             plt.close()
             
-        columns = data.columns
-        for i in range(len(columns)):
-            for j in range(i+1, len(columns)):
-                logging.info(f"Generating scatter plot for {columns[i]} vs {columns[j]}.")
-                
-                plt.figure(figsize=(8,6))
-                plt.scatter(data[columns[i]], data[columns[j]], alpha=0.7, c='r', edgecolor='k')
-                plt.title(f'Scatter plot of {columns[i]} vs {columns[j]}')
-                plt.xlabel(columns[i])
-                plt.ylabel(columns[j])
-                plt.grid(True)
-                pdf.savefig()
-                plt.close()
+        
+        logging.info("Generating histogram for relation of Exited with Categorical data.") 
+        fig, axarr = plt.subplots(2, 2, figsize=(20, 12))
+        sns.countplot(x='Geography', hue = 'Exited',data = data, ax=axarr[0][0])
+        sns.countplot(x='Gender', hue = 'Exited',data = data, ax=axarr[0][1])
+        sns.countplot(x='HasCrCard', hue = 'Exited',data = data, ax=axarr[1][0])
+        sns.countplot(x='IsActiveMember', hue = 'Exited',data = data, ax=axarr[1][1])
+        
+        logging.info("Generating box plots for relation of Exited with non Categorical data.") 
+        fig, axarr = plt.subplots(3, 2, figsize=(20, 12))
+        sns.boxplot(y='CreditScore',x = 'Exited', hue = 'Exited',data = data, ax=axarr[0][0])
+        sns.boxplot(y='Age',x = 'Exited', hue = 'Exited',data = data , ax=axarr[0][1])
+        sns.boxplot(y='Tenure',x = 'Exited', hue = 'Exited',data = data, ax=axarr[1][0])
+        sns.boxplot(y='Balance',x = 'Exited', hue = 'Exited',data = data, ax=axarr[1][1])
+        sns.boxplot(y='NumOfProducts',x = 'Exited', hue = 'Exited',data = data, ax=axarr[2][0])
+        sns.boxplot(y='EstimatedSalary',x = 'Exited', hue = 'Exited',data = data, ax=axarr[2][1])
+        
+        pdf.savefig()
+        plt.close()
         logging.info(f'Saved pdf in {pdf_filename}')
 
 

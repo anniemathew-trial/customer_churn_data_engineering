@@ -39,11 +39,7 @@ def prepare_csv_data(output_path="customer_data.csv"):
     logging.info("Handling 'Age' empty data")
     df['Age'] = df['Age'].fillna(df['Tenure'] + 18) 
     
-    logging.info("Scaling 'Tenure', 'Balance', 'EstimatedSalary'.")
-    scaler = StandardScaler()
-    df[['Tenure', 'Balance', 'EstimatedSalary']] = scaler.fit_transform(df[['Tenure', 'Balance', 'EstimatedSalary']])  
-
-    
+        
     logging.info("Droping 'Surname' as it may lead to profiling, 'RowNumber', 'CustomerId' as it is not required")
     df = df.drop(["RowNumber", "CustomerId", "Surname"], axis = 1)
     

@@ -48,6 +48,6 @@ def ingest_database():
     except Exception as e:
         logging.error(f"Error ingesting database: {str(e)}")
         
-filename = 'Telco-Customer-Churn.csv';
+filename = 'customer_data.csv';
 csv_data = ingest_csv(filename)
 database_data = ingest_database()

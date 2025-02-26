@@ -20,41 +20,11 @@ formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
 console.setFormatter(formatter)
 logging.getLogger("").addHandler(console)
 
-def read_csv_from_s3(csv_filename, zone_name, folder_name):
-    timestr = time.strftime("%Y%m%d")
-    logging.info("Logging in to AWS S3")
-    s3 = boto3.client("s3",
-                  aws_access_key_id="AKIA34AMCY3VJO7OWYOX",
-                  #aws_secret_access_key="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",
-                  region_name="us-east-1"
-    )
-    bucket_name = 'dmmlassignmentbucket'
-    s3_csv_key = f'{zone_name}/{timestr}/{folder_name}/{csv_filename}'
-    logging.info(f"Getting {s3_csv_key} from AWS S3")
-    response = s3.get_object(Bucket=bucket_name, Key=s3_csv_key)
-    csv_content = response["Body"].read().decode("utf-8")
-    df = pd.read_csv(StringIO(csv_content))
-    logging.info(f"Successfully retrieved data {s3_csv_key} from AWS S3 {bucket_name} bucket.")
-    return df;
-
-def save_csv_to_s3(csv_filename, zone_name, folder_name):
-    timestr = time.strftime("%Y%m%d")
-    logging.info("Logging in to AWS S3")
-    s3 = boto3.client("s3",
-                      aws_access_key_id="AKIA34AMCY3VJO7OWYOX",
-                      #aws_secret_access_key="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",
-                      region_name="us-east-1"
-    )
-    bucket_name = 'dmmlassignmentbucket'
-    s3_csv_key = f'{zone_name}/{timestr}/{folder_name}/{csv_filename}'
-    s3.upload_file(csv_filename, bucket_name, s3_csv_key) 
-    logging.info(f"Successfully uploaded data {s3_csv_key} to AWS S3 {bucket_name} bucket.")
-
-def generate_csv_data_quality_report(csv_filename, output_path="csv_data_quality_report.csv"):
+def generate_csv_data_quality_report(csv_filename, output_path="csv_validation_report.csv"):
     
     logging.info("Starting data validation")
     timestr = time.strftime("%Y%m%d")
-    df = read_csv_from_s3(csv_filename, zone_name="landing", folder_name="csv")
+    df = pd.read_csv("data/raw/customer_data.csv")
     report_data = []
     logging.info("Running validation on data received from S3")
     
@@ -63,8 +33,7 @@ def generate_csv_data_quality_report(csv_filename, output_path="csv_data_quality
         remarks = ""        
         # checking missing empty or null data
         missing_count = df[col].isnull().sum() + df[col].isna().sum()
-        
-        
+               
         missing_percentage = (missing_count / len(df)) * 100
         unique_count = df[col].nunique()
         # Numeric Columns
@@ -114,16 +83,10 @@ def generate_csv_data_quality_report(csv_filename, output_path="csv_data_quality
     outdir = 'reports'
     if not os.path.exists(outdir):
         os.mkdir(outdir)
-    output_path = f"{outdir}/{output_path}_{timestr}.csv"
-    report_df.to_csv(output_path, index=False)
-    save_csv_to_s3(output_path, "raw", "csv")
+    report_df.to_csv(f"{outdir}/{output_path}_{timestr}.csv", index=False)
     logging.info(f"Metrics saved to: {output_path}")
-    
-    df.to_csv(csv_filename, index=False)
-    save_csv_to_s3(csv_filename, "raw", "csv")
-    logging.info("Saving csv as trusted")
-    
+        
     os.remove(output_path)
 
 
-generate_csv_data_quality_report("Telco-Customer-Churn.csv")
+generate_csv_data_quality_report("customer_data.csv")

@@ -1,3 +1,4 @@
+from pathlib import Path
 import pandas as pd
 import logging
 import pyodbc
@@ -20,6 +21,9 @@ def ingest_csv(filename):
     try:
         logging.info(f"Reading data from CSV file {filename}")
         data = pd.read_csv(filename)
+        p = Path('data/raw')
+        p.mkdir(parents = True, exist_ok = True)
+        data.to_csv(f"data/raw/{filename}", index=False)
         logging.info(f"Data from CSV {filename} ingested successfully!")
         return data
     except Exception as e:
@@ -42,7 +46,9 @@ def ingest_database():
         data = pd.read_sql(query, connection)
         
         connection.close()
-        data.to_csv("database_data.csv", index=False)
+        p = Path('data/raw')
+        p.mkdir(parents = True, exist_ok = True)
+        data.to_csv("data/raw/database_data.csv", index=False)
         logging.info("Data from Database ingested successfully!")
         return data
     except Exception as e:

@@ -4,7 +4,7 @@ import logging
 import pyodbc
 
 #create log file if it does not exist
-ingestion_log_file = "C:\\Annie\\Trial\\logs\\data_ingestion.log"
+ingestion_log_file = "C:\\Annie\\Trial\\logs/data_ingestion.log"
 logging.root.handlers = []
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO , filename=ingestion_log_file)
 
@@ -34,7 +34,7 @@ def ingest_database():
         server = "127.0.0.1,1433"
         database = "dmml_assignment"
         username = "sa"
-        password = "1StrongPwd!!"
+        password = "NewPASS1234"
 
         logging.info("Connecting to Database")
         connection = pyodbc.connect(f'DRIVER={{SQL SERVER}};SERVER={server};DATABASE={database};UID={username};PWD={password}')

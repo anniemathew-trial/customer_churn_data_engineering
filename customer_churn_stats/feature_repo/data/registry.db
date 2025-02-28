@@ -7,7 +7,7 @@ K
 +
 __dummy"
 __dummy_idJcustomer_churn_stats
-Œì‡¾Ğ§È†Œì‡¾Ğ§È†1"$b425408e-03d0-4610-bc20-11e98d15878b*Œì‡¾Øà¼ˆ2‹
+Œì‡¾Ğ§È†Œì‡¾Ğ§È†1"$39cdcdc5-0e70-4fb8-84ba-798bfb34dcb3*àõ‡¾ÈşÍ¦2£
 ê
 customer_stats_fvcustomer_churn_statsId"
 CreditScore"
@@ -28,8 +28,9 @@ __dummy_idJcustomer_churn_stats
 TenureAgeRatio"
 BalanceSEstimatedalaryRatio"
 BalanceAgeRatio2€£:~	CreatedOnZdata/customer_features.parqŠ1feast.infra.offline_stores.file_source.FileSource¢data/customer_features.parq@b
-Id
-Œì‡¾¬…‡Œì‡¾¬…‡R§
+Id4
+Œì‡¾¬…‡àõ‡¾À—¦
+ÖÒ‚¾Ğµåâ¦‰¾R§
 ¤
 ,feast.infra.online_stores.sqlite.SqliteTable"t
 JC:\Annie\Trial\dmml\customer_churn_stats\feature_repo\data\online_store.db&customer_churn_stats_customer_stats_fvb•	CreatedOnZdata/customer_features.parqŠ1feast.infra.offline_stores.file_source.FileSource¢data/customer_features.parqªcustomer_churn_statsŠ6

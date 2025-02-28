@@ -22,10 +22,11 @@ BEGIN
 		[Geography_Germany] [float] NOT NULL,
 		[Geography_Spain] [float]  NOT NULL,
 		[Gender_Male] [float] NOT NULL,  
-		[CreditScoreTenureRatio] [float] NOT NULL, 
-		[TenureAgeRatio] [float] NOT NULL, 
-		[BalanceSEstimatedalaryRatio] [float] NOT NULL, 
-		[BalanceAgeRatio] [float] NOT NULL
+		[CreditScoreTenureRatio] [decimal] NOT NULL, 
+		[TenureAgeRatio] [decimal] NOT NULL, 
+		[BalanceSEstimatedalaryRatio] [decimal] NOT NULL, 
+		[BalanceAgeRatio] [decimal] NOT NULL,
+		[CreatedOn] [datetime] NOT NULL DEFAULT GETUTCDATE()
 	)
 END
 

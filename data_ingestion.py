@@ -4,7 +4,7 @@ import logging
 import pyodbc
 
 #create log file if it does not exist
-ingestion_log_file = "C:\\Annie\\Trial\\logs/data_ingestion.log"
+ingestion_log_file = "C:\\Annie\\Trial\\logs\\data_ingestion.log"
 logging.root.handlers = []
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO , filename=ingestion_log_file)
 

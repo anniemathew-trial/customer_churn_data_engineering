@@ -49,7 +49,6 @@ def data_storage(csv_filename):
         df = pd.read_csv(f"data/transformed/{csv_filename}")
         data_tuples = df.to_records(index=False).tolist()
         for i in range(0, len(data_tuples)):
-            print(f"processing saved {data_tuples[i]}")
             cursor.execute(insert_script, data_tuples[i])
 
         connection.commit()

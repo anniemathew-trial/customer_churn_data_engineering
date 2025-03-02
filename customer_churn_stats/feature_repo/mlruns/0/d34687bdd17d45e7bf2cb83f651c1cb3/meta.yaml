@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/d34687bdd17d45e7bf2cb83f651c1cb3/artifacts
+end_time: 1740807507522
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d34687bdd17d45e7bf2cb83f651c1cb3
+run_name: suave-cub-784
+run_uuid: d34687bdd17d45e7bf2cb83f651c1cb3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740807498494
+status: 3
+tags: []
+user_id: AnnieThampyMathew

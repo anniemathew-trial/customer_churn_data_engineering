@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/73dcd35fd5114f839ffee87b0cd47688/artifacts
+end_time: 1740807173979
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 73dcd35fd5114f839ffee87b0cd47688
+run_name: calm-calf-34
+run_uuid: 73dcd35fd5114f839ffee87b0cd47688
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740807150336
+status: 4
+tags: []
+user_id: AnnieThampyMathew

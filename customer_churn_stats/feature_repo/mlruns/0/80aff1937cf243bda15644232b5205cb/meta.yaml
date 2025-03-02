@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/80aff1937cf243bda15644232b5205cb/artifacts
+end_time: 1740804120008
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 80aff1937cf243bda15644232b5205cb
+run_name: bittersweet-dog-898
+run_uuid: 80aff1937cf243bda15644232b5205cb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740804092509
+status: 3
+tags: []
+user_id: AnnieThampyMathew

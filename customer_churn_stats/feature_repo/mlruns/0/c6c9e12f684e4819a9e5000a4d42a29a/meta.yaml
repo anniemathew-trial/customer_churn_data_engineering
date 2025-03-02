@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/c6c9e12f684e4819a9e5000a4d42a29a/artifacts
+end_time: 1740804250532
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c6c9e12f684e4819a9e5000a4d42a29a
+run_name: amusing-deer-590
+run_uuid: c6c9e12f684e4819a9e5000a4d42a29a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740804232461
+status: 3
+tags: []
+user_id: AnnieThampyMathew

@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/17adffd6d1cd429ba892f3e7ca011338/artifacts
+end_time: 1740804341041
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 17adffd6d1cd429ba892f3e7ca011338
+run_name: sincere-shad-961
+run_uuid: 17adffd6d1cd429ba892f3e7ca011338
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740804331079
+status: 3
+tags: []
+user_id: AnnieThampyMathew

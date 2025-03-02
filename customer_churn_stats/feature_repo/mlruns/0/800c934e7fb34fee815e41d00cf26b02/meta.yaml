@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/800c934e7fb34fee815e41d00cf26b02/artifacts
+end_time: 1740804330956
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 800c934e7fb34fee815e41d00cf26b02
+run_name: funny-sloth-572
+run_uuid: 800c934e7fb34fee815e41d00cf26b02
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740804315555
+status: 3
+tags: []
+user_id: AnnieThampyMathew

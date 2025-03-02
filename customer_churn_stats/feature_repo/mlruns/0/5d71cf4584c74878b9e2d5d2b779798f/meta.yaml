@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/5d71cf4584c74878b9e2d5d2b779798f/artifacts
+end_time: 1740807520069
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5d71cf4584c74878b9e2d5d2b779798f
+run_name: kindly-wasp-535
+run_uuid: 5d71cf4584c74878b9e2d5d2b779798f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740807511256
+status: 3
+tags: []
+user_id: AnnieThampyMathew

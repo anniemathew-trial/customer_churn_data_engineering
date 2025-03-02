@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Annie/Trial/dmml/customer_churn_stats/feature_repo/mlruns/0/f966677d778e4f709ee860fef52a947b/artifacts
+end_time: 1740803952198
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f966677d778e4f709ee860fef52a947b
+run_name: popular-fowl-981
+run_uuid: f966677d778e4f709ee860fef52a947b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1740803915567
+status: 4
+tags: []
+user_id: AnnieThampyMathew
